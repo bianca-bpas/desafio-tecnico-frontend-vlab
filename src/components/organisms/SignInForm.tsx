@@ -1,29 +1,46 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../atoms/ui/card"
-import { Label } from "../atoms/ui/label" 
-import { Input } from "../atoms/ui/input"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../atoms/ui/card"
+import { Form } from "../molecules/Form"
+import { Label } from "../atoms/ui/label"
 import { Button } from "../atoms/ui/button"
+import { useState } from "react"
 
-export default function SignInForm () {
+export function SignInForm () {
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+
+    const handleSubmit = () => {
+        setTimeout (() => {
+            console.log({ email, password })
+        }, 2000)
+    }
+
     return (
-        <div className="flex-1 flex justify-center items-center relative h-screen">
-            <Card className="absolute">
+        <div className="flex justify-center items-center h-screen">
+            <Card>
                 <CardHeader>
                     <CardTitle>Login</CardTitle>
                     <CardDescription>Entre com a sua conta</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <Label>E-mail:</Label>
-                    <Input></Input>
-                    <Label>Senha:</Label>
-                    <Input></Input>
-                    <Button className="w-full mt-2">Login</Button>
+                    <Form 
+                        fields={[
+                            {
+                                label: "E-mail",
+                                type: "email",
+                                value: email,
+                                onChange: (e) =>setEmail(e.target.value)
+                            },
+                            {
+                                label: "Senha",
+                                type: "password",
+                                value: password,
+                                onChange: (e) => setPassword(e.target.value)
+                            }
+                        ]}
+                        onSubmit={handleSubmit}
+                        buttonText="Entrar"
+                    />
+
                 </CardContent>
                 <CardFooter className="flex justify-center">
                     <Label>Não possui uma conta?</Label>
