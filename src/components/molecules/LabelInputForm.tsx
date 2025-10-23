@@ -21,6 +21,7 @@ export function LabelInputForm ({
                 type={type}
                 value={value}
                 onChange={onChange}
+                required
             />
         </div>
     )

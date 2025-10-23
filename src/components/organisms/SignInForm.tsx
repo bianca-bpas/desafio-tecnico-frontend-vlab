@@ -3,6 +3,7 @@ import { Form } from "../molecules/Form"
 import { Label } from "../atoms/ui/label"
 import { Button } from "../atoms/ui/button"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 type SignInFormProps = {
     onChangeForm: (form: "login" | "register") => void
@@ -12,10 +13,12 @@ export function SignInForm ({ onChangeForm } : SignInFormProps) {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
+    const navigate = useNavigate()
+
     const handleSubmit = () => {
         setTimeout (() => {
-            console.log({ email, password })
-        }, 2000)
+            navigate("/dashboard")
+        }, 4000)
     }
 
     return (
