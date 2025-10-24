@@ -6,7 +6,7 @@ import { CircleCheck } from "lucide-react"
 
 interface FormProps {
     fields: Field[]
-    onSubmit: () => void
+    onSubmit: () => Promise<boolean>
     buttonText: string
 }
 
@@ -19,12 +19,16 @@ export function Form ({
     const [submitedButton, setSubmitedButton] = useState(false)
     const [doneButton, setDoneButton] = useState(false)
 
-    const handleSubmitedButton = () => {
-        setSubmitedButton((submitedButton) => !submitedButton)
-        setTimeout (() => {
-            setSubmitedButton((submitedButton) => !submitedButton)
-            setDoneButton((doneButton) => !doneButton)
-        }, 2000)
+    const handleSubmitedButton = async () => {
+        setSubmitedButton(true)
+        const success = await onSubmit()
+        setSubmitedButton(false)
+        if (success) {
+            setDoneButton(true)
+            setTimeout(() => {
+                setDoneButton(false)
+            }, 2000)
+        }
     }
 
     return (
@@ -32,7 +36,6 @@ export function Form ({
             onSubmit={(e) => {
                 e.preventDefault()
                 handleSubmitedButton()
-                onSubmit()
             }}
             className=""
             >
@@ -40,7 +43,7 @@ export function Form ({
                 <LabelInputForm key={index} {...field}/>
             ))}
 
-            <Button type="submit" className="w-full mt-2">
+            <Button type="submit" className="w-full mt-2" disabled={submitedButton}>
                 {submitedButton && <Spinner />}
                 {doneButton && <CircleCheck />}
                 {buttonText}
