@@ -16,9 +16,19 @@ export function SignUpForm ({ onChangeForm } : SignUnFormProps) {
     const [password, setPassword] = useState("")
     const [showError, setShowError] = useState(false) 
     const [showSuccess, setShowSuccess] = useState(false)
+    const [errorMessage, setErrorMessage] = useState("")
     const { register } = useAuth()
 
     const handleSubmit = async () => {
+        if (password.length < 6) {
+            setErrorMessage("A senha deve ter pelo menos 6 caracteres.");
+            setShowError(true);
+            setTimeout(() => 
+                setShowError(false), 3000
+            );
+            return false;
+        }
+
         const success = await register(name, email, password);
         if (success) {
             setShowSuccess(true);
@@ -26,6 +36,7 @@ export function SignUpForm ({ onChangeForm } : SignUnFormProps) {
                 onChangeForm("login");
             }, 3000);
         } else {
+            setErrorMessage("Erro no cadastro. Tente novamente.");
             setShowError(true);
             setTimeout(() => setShowError(false), 3000);
         }
@@ -66,7 +77,7 @@ export function SignUpForm ({ onChangeForm } : SignUnFormProps) {
                     />
                     {showError && (
                         <Alert variant="destructive" className="mt-4">
-                            <AlertDescription>Erro no cadastro. Tente novamente.</AlertDescription>
+                            <AlertDescription>{errorMessage}</AlertDescription>
                         </Alert>
                     )}
                     {showSuccess && (
