@@ -3,6 +3,8 @@ import { Form } from "../molecules/Form"
 import { Label } from "../atoms/ui/label"
 import { Button } from "../atoms/ui/button"
 import { useState } from "react"
+import { useAuth } from '@/contexts/AuthContext';
+import { Alert, AlertDescription } from "../atoms/ui/alert"
 
 type SignUnFormProps = {
     onChangeForm: (form: "login" | "register") => void
@@ -12,11 +14,22 @@ export function SignUpForm ({ onChangeForm } : SignUnFormProps) {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [showError, setShowError] = useState(false) 
+    const [showSuccess, setShowSuccess] = useState(false)
+    const { register } = useAuth()
 
-    const handleSubmit = () => {
-        setTimeout (() => {
-            console.log({ name, email, password })
-        }, 2000)
+    const handleSubmit = async () => {
+        const success = await register(name, email, password);
+        if (success) {
+            setShowSuccess(true);
+            setTimeout(() => {
+                onChangeForm("login");
+            }, 3000);
+        } else {
+            setShowError(true);
+            setTimeout(() => setShowError(false), 3000);
+        }
+        return success;
     }
 
     return (
@@ -51,7 +64,16 @@ export function SignUpForm ({ onChangeForm } : SignUnFormProps) {
                         onSubmit={handleSubmit}
                         buttonText="Cadastrar"
                     />
-
+                    {showError && (
+                        <Alert variant="destructive" className="mt-4">
+                            <AlertDescription>Erro no cadastro. Tente novamente.</AlertDescription>
+                        </Alert>
+                    )}
+                    {showSuccess && (
+                        <Alert className="mt-4">
+                            <AlertDescription>Cadastro realizado com sucesso! Redirecionando para login...</AlertDescription>
+                        </Alert>
+                    )}
                 </CardContent>
                 <CardFooter className="flex justify-center">
                     <Label>Já possui uma conta?</Label>

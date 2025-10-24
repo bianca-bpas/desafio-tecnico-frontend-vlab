@@ -4,6 +4,8 @@ import { Label } from "../atoms/ui/label"
 import { Button } from "../atoms/ui/button"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { useAuth } from '@/contexts/AuthContext';
+import { Alert, AlertDescription } from "../atoms/ui/alert"
 
 type SignInFormProps = {
     onChangeForm: (form: "login" | "register") => void
@@ -12,13 +14,23 @@ type SignInFormProps = {
 export function SignInForm ({ onChangeForm } : SignInFormProps) {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-
+    const [showDoneButton, setShowDoneButton] = useState(false)
+    const [showError, setShowError] = useState(false)
+    const { login } = useAuth()!;
     const navigate = useNavigate()
 
-    const handleSubmit = () => {
-        setTimeout (() => {
-            navigate("/dashboard")
-        }, 4000)
+    const handleSubmit = async () => {
+        const success = await login(email, password);
+        if (success) {
+            setShowDoneButton(true);
+            setTimeout(() => {
+                navigate("/dashboard");
+            }, 2000);
+        } else {
+            setShowError(true);
+            setTimeout(() => setShowError(false), 3000);
+        }
+        return success;
     }
 
     return (
@@ -45,9 +57,13 @@ export function SignInForm ({ onChangeForm } : SignInFormProps) {
                             }
                         ]}
                         onSubmit={handleSubmit}
-                        buttonText="Entrar"
+                        buttonText={showDoneButton ? "Done" : "Entrar"}
                     />
-
+                    {showError && ( 
+                        <Alert variant="destructive" className="mt-4">
+                            <AlertDescription>Credenciais inválidas</AlertDescription>
+                        </Alert>
+                    )}
                 </CardContent>
                 <CardFooter className="flex justify-center">
                     <Label>Não possui uma conta?</Label>

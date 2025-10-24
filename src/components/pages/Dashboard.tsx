@@ -4,16 +4,22 @@ import { CirclePlus } from "lucide-react"
 import { Label } from "@radix-ui/react-label"
 import { Badge } from "../atoms/ui/badge"
 import { ArrowDownToLine } from "lucide-react"
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function Dashboard () {
+    const { logout } = useAuth();
+
     return (
         <div className="p-20">
             <div className="flex items-center justify-between">
                 <h1>Meus Cursos</h1>
-                <Button>
-                    <CirclePlus />
-                    Novo Curso
-                </Button>
+                <div className="flex gap-4">
+                    <Button>
+                        <CirclePlus />
+                        Novo Curso
+                    </Button>
+                    <Button onClick={logout} variant={"outline"}>Logout</Button>
+                </div>
             </div>
             <div className="p-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
                 <Card className="pt-0">
