@@ -12,4 +12,9 @@ const getUsers = async () => {
   return response.data;
 }
 
-export default getUsers
+const postUser = async (userData: { name: string; email: string; password: string }) => {
+  const response = await api.post("/users", userData);
+  return response.data;
+}
+
+export { getUsers, postUser }
