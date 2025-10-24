@@ -1,73 +1,34 @@
-# React + TypeScript + Vite
+# Desafio Técnico Frontend - vLab
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Resumo
 
-Currently, two official plugins are available:
+Este repositório contém a solução do desafio técnico frontend para vLab. O objetivo foi construir uma aplicação web responsiva e acessível para o CourseSphere utilizando componentes reutilizáveis, gerenciamento de estado e autenticação com integração a API local.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Funcionalidades implementadas
 
-## React Compiler
+- Layout responsivo (mobile / tablet / desktop).
+- Componentização em React utilizando o Atomic Design Principle.
+- Funcionalidade de Autenticação com Login e Cadastro.
+- Roteamento entre páginas principais com React-Router-Dom.
+- Consumo de API REST local com GET/POST Users usando Axios e JSON Server com tratamento de erros.
+- Formulários controlados com validação client-side (validação de campos obrigatórios, quantidade de caracteres).
+- Estado local e global (Context) para manter consistência entre componentes.
+- Mensagens de feedback para o usuário: loading, sucesso e erro.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Como rodar localmente
 
-## Expanding the ESLint configuration
+Pré-requisitos:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Node.js
+- npm
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Passos:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+1. Clonar o repositório:
+2. Entrar na pasta do projeto:
+   cd d:\Arquivos\desafio-tecnico-frontend-vlab
+3. Instalar dependências:
+   npm install
+4. Rodar em modo de desenvolvimento:
+   npm run dev
+5. Na pasta do src/api executar: json-server --watch db.json --port 8000 para rodar o backend fictício.
